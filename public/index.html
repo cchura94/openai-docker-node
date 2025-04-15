@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-6">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl">
+        <h1 class="text-3xl font-bold">Consúlta nuestros servicios</h1>
+        <label for="" class="block">Haz tu pregunta</label>
+        <textarea id="pregunta" class="w-full p-4 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+        <br>
+        <button type="button" onclick="funPreguntar()" class="mt-4 w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-200">PREGUNTAR</button>
+    
+        <h2>Respuesta:</h2>
+        <div id="respuesta" class="mt-2 p-4 bg-gray border border-gray-300 rounded-lg text-gray-700 whitespace-pre-line"></div>
+
+    </div>
+
+    <script>
+        async function funPreguntar(){
+            const pregunta = document.getElementById('pregunta').value;
+
+            const res = await fetch("/api/preguntar", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({pregunta})
+            });
+
+            const data = await res.json();
+            document.getElementById('respuesta').innerHTML = data.respuesta || 'Sin respuesta';
+        }
+    </script>
+</body>
+</html>
